@@ -1,5 +1,6 @@
 import { NeynarAPIClient, Configuration, WebhookUserCreated } from '@neynar/nodejs-sdk';
 import { APP_URL } from './constants';
+import { NeynarService } from '~/lib/neynar';
 
 let neynarClient: NeynarAPIClient | null = null;
 
@@ -73,4 +74,10 @@ export async function sendNeynarFrameNotification({
   } catch (error) {
     return { state: "error", error };
   }
-} 
+}
+
+// When sharing creations
+await NeynarService.publishCast(signerUuid, 
+  `Just completed day ${streak} of my creative journey! 🎨✨`,
+  [`${process.env.NEXT_PUBLIC_URL}/creation/${creationId}`]
+); 
